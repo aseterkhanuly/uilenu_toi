@@ -54,53 +54,34 @@ async function openEnvelope() {
      */
     setTimeout(() => {
 
-        envelopeScreen.classList.add("exit");
+    envelopeScreen.classList.add("exit");
 
-    }, 1550);
-
-
-    /*
-     * 3. Полностью скрываем envelope
-     *    и показываем сайт
-     */
-    setTimeout(() => {
-
-        envelopeScreen.style.display = "none";
-
-        invitation.classList.remove("hidden");
-
-        invitation.classList.add("show");
-
-        musicButton.classList.add("show");
+}, 3000);
 
 
-        /*
-         * Автозапуск музыки.
-         *
-         * Браузер может заблокировать autoplay.
-         * В таком случае пользователь просто
-         * нажимает кнопку музыки.
-         */
+setTimeout(() => {
 
-        music
-            .play()
-            .then(() => {
+    envelopeScreen.style.display = "none";
 
-                musicButton.classList.add("playing");
+    invitation.classList.remove("hidden");
 
-            })
-            .catch(() => {
+    invitation.classList.add("show");
 
-                console.log(
-                    "Autoplay заблокирован браузером"
-                );
+    musicButton.classList.add("show");
 
-            });
+    music.play()
+        .then(() => {
+            musicButton.classList.add("playing");
+        })
+        .catch(() => {
+            console.log(
+                "Autoplay заблокирован браузером"
+            );
+        });
 
+    initReveals();
 
-        initReveals();
-
-    }, 2350);
+}, 3750);
 }
 
 
