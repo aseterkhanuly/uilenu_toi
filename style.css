@@ -10,6 +10,11 @@
     --script: "Marck Script", "Brush Script MT", cursive;
 }
 
+
+/* =====================================================
+   RESET
+===================================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -21,18 +26,39 @@ html {
 
 body {
     margin: 0;
+
     background: #202516;
     color: var(--text);
+
     font-family: var(--sans);
+
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+img {
+    max-width: 100%;
 }
 
 .site {
     width: min(100%, 480px);
+
     margin: auto;
+
     background: var(--olive);
+
     overflow: hidden;
-    box-shadow: 0 0 90px rgba(0,0,0,.4);
+
+    box-shadow:
+        0 0 90px
+        rgba(0,0,0,.4);
 }
 
 .hidden {
@@ -59,8 +85,12 @@ body {
     color: #faf7ed;
 }
 
+
+/* Background */
+
 .envelope-background {
     position: absolute;
+
     inset: -8%;
 
     background:
@@ -90,9 +120,10 @@ body {
     to {
         transform: scale(1.12);
     }
-
 }
 
+
+/* Ambient light */
 
 .ambient {
     position: absolute;
@@ -102,6 +133,8 @@ body {
     filter: blur(60px);
 
     opacity: .18;
+
+    pointer-events: none;
 }
 
 .ambient-1 {
@@ -130,7 +163,6 @@ body {
 ===================================================== */
 
 .envelope-scene {
-
     position: relative;
 
     z-index: 3;
@@ -145,16 +177,19 @@ body {
 
     cursor: pointer;
 
-    perspective: 1300px;
+    perspective: 1400px;
 
     user-select: none;
+
+    outline: none;
 }
 
 
-/* decorative leaves */
+/* =====================================================
+   DECORATIVE LEAVES
+===================================================== */
 
 .decor-leaf {
-
     position: absolute;
 
     z-index: 0;
@@ -163,13 +198,15 @@ body {
 
     font-size: 190px;
 
-    color: rgba(228,229,198,.2);
+    color:
+        rgba(228,229,198,.2);
 
     line-height: 1;
+
+    pointer-events: none;
 }
 
 .leaf-left {
-
     left: -105px;
     top: 20px;
 
@@ -177,7 +214,6 @@ body {
 }
 
 .leaf-right {
-
     right: -105px;
     bottom: 45px;
 
@@ -185,77 +221,71 @@ body {
 }
 
 
-/* pearls */
+/*
+ * Старые жемчужины/точки удалены.
+ * Если они случайно остались в HTML,
+ * они всё равно не будут отображаться.
+ */
 
-.pearl {
+.pearl,
+.p1,
+.p2,
+.p3 {
+    display: none !important;
+}
 
+
+/* =====================================================
+   ENVELOPE
+===================================================== */
+
+.envelope {
     position: absolute;
 
-    width: 15px;
-    height: 15px;
+    width: 310px;
+    height: 215px;
 
-    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -37%)
+        scale(1);
+
+    transform-style: preserve-3d;
+
+    z-index: 5;
+
+    transition:
+        transform
+        1.1s
+        cubic-bezier(.18,.75,.2,1);
+}
+
+
+/* =====================================================
+   ENVELOPE BACK
+===================================================== */
+
+.envelope-back {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    border-radius: 7px;
 
     background:
-        radial-gradient(
-            circle at 28% 23%,
-            #fff 0,
-            #f5f0df 38%,
-            #b8af99 100%
+        linear-gradient(
+            145deg,
+            #ded4b8,
+            #c7bda1
         );
 
     box-shadow:
-        4px 7px 14px rgba(0,0,0,.25);
-
-    z-index: 10;
-}
-
-.p1 {
-
-    left: 18%;
-    top: 20%;
-
-    animation:
-        floatPearl
-        4s
-        ease-in-out
-        infinite;
-}
-
-.p2 {
-
-    right: 13%;
-    top: 37%;
-
-    animation:
-        floatPearl
-        4.7s
-        .7s
-        ease-in-out
-        infinite;
-}
-
-.p3 {
-
-    left: 10%;
-    bottom: 24%;
-
-    animation:
-        floatPearl
-        4.2s
-        1.2s
-        ease-in-out
-        infinite;
-}
-
-@keyframes floatPearl {
-
-    50% {
-        transform:
-            translateY(-10px)
-            rotate(12deg);
-    }
-
+        0 30px 50px
+        rgba(0,0,0,.3);
 }
 
 
@@ -263,39 +293,57 @@ body {
    LETTER
 ===================================================== */
 
+/*
+ * Очень важно:
+ *
+ * Карточка находится ВНУТРИ конверта.
+ *
+ * До открытия:
+ * z-index: 2
+ * transform: translateY(25px)
+ *
+ * Передняя часть конверта имеет z-index: 6,
+ * поэтому карточка полностью скрыта.
+ */
+
 .letter {
     position: absolute;
 
-    /*
-     * КАРТОЧКА НАХОДИТСЯ ПОД КОНВЕРТОМ.
-     * Поэтому в закрытом состоянии её вообще
-     * невозможно увидеть.
-     */
-    z-index: 1;
-
-    width: 250px;
-    height: 310px;
+    width: 245px;
+    height: 315px;
 
     left: 50%;
-    top: 48%;
+    top: 50%;
 
     transform:
-        translate(-50%, 15px)
-        scale(.96);
+        translate(-50%, 25px)
+        scale(.94);
 
-    padding: 10px;
+    transform-origin:
+        center bottom;
+
+    z-index: 2;
+
+    padding: 9px;
 
     opacity: 0;
 
     pointer-events: none;
 
     transition:
-        opacity .35s ease,
-        transform 1.25s cubic-bezier(.16,.75,.2,1);
+        transform
+        1.35s
+        cubic-bezier(.16,.75,.18,1),
+
+        opacity
+        .45s
+        ease;
 }
 
-.letter-inner {
 
+/* Letter itself */
+
+.letter-inner {
     width: 100%;
     height: 100%;
 
@@ -326,8 +374,10 @@ body {
     color: var(--olive-dark);
 }
 
-.letter-small {
 
+/* Letter heading */
+
+.letter-small {
     font-size: 7px;
 
     letter-spacing: .28em;
@@ -335,8 +385,10 @@ body {
     margin-bottom: 18px;
 }
 
-.letter-names {
 
+/* Names */
+
+.letter-names {
     font-family: var(--script);
 
     font-size: 48px;
@@ -346,10 +398,11 @@ body {
     display: flex;
 
     flex-direction: column;
+
+    align-items: center;
 }
 
 .letter-names b {
-
     font-family: var(--serif);
 
     font-size: 18px;
@@ -359,8 +412,10 @@ body {
     line-height: 1.5;
 }
 
-.letter-date {
 
+/* Date */
+
+.letter-date {
     margin-top: 24px;
 
     font-size: 8px;
@@ -370,50 +425,12 @@ body {
 
 
 /* =====================================================
-   ENVELOPE
+   ENVELOPE POCKET
 ===================================================== */
 
-.envelope {
-
-    position: absolute;
-
-    width: 310px;
-    height: 215px;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%,-37%);
-
-    transform-style: preserve-3d;
-
-    z-index: 5;
-    
-}
-
-.envelope-back {
-
-    position: absolute;
-    inset: 0;
-
-    border-radius: 7px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ded4b8,
-            #c7bda1
-        );
-
-    box-shadow:
-        0 30px 50px
-        rgba(0,0,0,.3);
-}
-
 .envelope-pocket {
-
     position: absolute;
+
     inset: 0;
 
     z-index: 3;
@@ -435,21 +452,28 @@ body {
         );
 }
 
-.envelope-front {
 
+/* =====================================================
+   ENVELOPE FRONT
+===================================================== */
+
+.envelope-front {
     position: absolute;
+
     inset: 0;
 
-    z-index: 4;
+    z-index: 6;
 
     overflow: hidden;
 
     border-radius: 7px;
+
+    pointer-events: none;
 }
 
 .envelope-front-inner {
-
     position: absolute;
+
     inset: 0;
 
     clip-path:
@@ -459,7 +483,12 @@ body {
             100% 100%
         );
 
-    background: #d5cbb0;
+    background:
+        linear-gradient(
+            145deg,
+            #ddd2b6,
+            #c8bda0
+        );
 }
 
 
@@ -468,7 +497,6 @@ body {
 ===================================================== */
 
 .envelope-flap {
-
     position: absolute;
 
     left: 0;
@@ -476,69 +504,53 @@ body {
 
     top: 0;
 
-    height: 150px;
+    height: 155px;
 
-    z-index: 8;
+    z-index: 9;
 
-    transform-origin: top center;
+    transform-origin:
+        50% 0%;
 
     transform-style: preserve-3d;
 
+    transform:
+        rotateX(0deg);
+
     transition:
         transform
-        1.15s
-        cubic-bezier(.2,.7,.2,1);
+        1.25s
+        cubic-bezier(.18,.72,.2,1);
+
+    pointer-events: none;
 }
 
-.flap-inner {
 
+.flap-inner {
     position: absolute;
+
     inset: 0;
 
     clip-path:
         polygon(
             0 0,
             100% 0,
-            50% 78%
+            50% 79%
         );
 
     background:
         linear-gradient(
             150deg,
-            #eee6d1,
-            #cfc4a7
+            #f3ecd9,
+            #d4c9ac
         );
 
     filter:
         drop-shadow(
-            0 5px 4px
-            rgba(0,0,0,.1)
+            0 7px 5px
+            rgba(0,0,0,.13)
         );
-}
 
-
-/* =====================================================
-   OPEN ANIMATION
-===================================================== */
-
-.envelope-scene.opening
-.envelope-flap {
-
-    transform:
-        rotateX(-178deg);
-}
-
-
-.envelope-scene.opening .letter {
-    z-index: 9;
-
-    opacity: 1;
-
-    transform:
-        translate(-50%, -105px)
-        scale(1);
-
-    transition-delay: .38s;
+    backface-visibility: hidden;
 }
 
 
@@ -547,19 +559,19 @@ body {
 ===================================================== */
 
 .wax-seal {
-
     position: absolute;
 
-    z-index: 12;
+    z-index: 15;
 
     left: 50%;
-    top: 54%;
+    top: 55%;
 
     width: 65px;
     height: 65px;
 
     transform:
-        translate(-50%,-50%);
+        translate(-50%,-50%)
+        scale(1);
 
     border-radius: 50%;
 
@@ -590,20 +602,154 @@ body {
 
     box-shadow:
         0 8px 20px
-        rgba(0,0,0,.25);
+        rgba(0,0,0,.25),
+
+        inset 0 1px 2px
+        rgba(255,255,255,.2);
 
     transition:
-        opacity .35s ease,
-        transform .7s
+        opacity
+        .45s
+        ease
+        .05s,
+
+        transform
+        .7s
         cubic-bezier(.2,.7,.2,1);
 }
 
 .wax-seal small {
-
     font-size: 11px;
 
     font-style: italic;
 }
+
+
+/* =====================================================
+   OPENING ANIMATION
+===================================================== */
+
+
+/*
+ * ЭТА АНИМАЦИЯ ИДЁТ ПОЭТАПНО:
+ *
+ * 0.00s — пользователь нажимает
+ *
+ * 0.05s — конверт немного приближается
+ *
+ * 0.10s — сургуч начинает исчезать
+ *
+ * 0.20s — клапан начинает открываться
+ *
+ * 0.55s — карточка начинает выходить
+ *
+ * 1.8s — карточка занимает финальное положение
+ */
+
+
+/* Envelope movement */
+
+.envelope-scene.opening .envelope {
+    transform:
+        translate(-50%, -39%)
+        scale(1.025);
+}
+
+
+/* Flap */
+
+.envelope-scene.opening
+.envelope-flap {
+
+    transform:
+        rotateX(-180deg);
+}
+
+
+/* Letter */
+
+.envelope-scene.opening
+.letter {
+
+    z-index: 9;
+
+    opacity: 1;
+
+    animation:
+        letterRise
+        1.45s
+        .48s
+        cubic-bezier(.16,.75,.18,1)
+        both;
+}
+
+
+/* Letter movement */
+
+@keyframes letterRise {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, 35px)
+            scale(.94)
+            rotate(-1deg);
+    }
+
+
+    15% {
+
+        opacity: 1;
+
+        transform:
+            translate(-50%, 15px)
+            scale(.95)
+            rotate(-.7deg);
+    }
+
+
+    40% {
+
+        transform:
+            translate(-50%, -45px)
+            scale(.975)
+            rotate(.4deg);
+    }
+
+
+    68% {
+
+        transform:
+            translate(-50%, -120px)
+            scale(1.01)
+            rotate(-.25deg);
+    }
+
+
+    85% {
+
+        transform:
+            translate(-50%, -138px)
+            scale(1.015)
+            rotate(.1deg);
+    }
+
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            translate(-50%, -125px)
+            scale(1)
+            rotate(0deg);
+    }
+}
+
+
+/* Wax seal */
 
 .envelope-scene.opening
 .wax-seal {
@@ -612,23 +758,56 @@ body {
 
     transform:
         translate(-50%,-50%)
-        scale(.65)
-        rotate(-25deg);
+        scale(.5)
+        rotate(-20deg);
+}
+
+
+/* Slight envelope breath */
+
+.envelope-scene.opening {
+    animation:
+        envelopeBreath
+        1.8s
+        cubic-bezier(.2,.7,.2,1);
+}
+
+@keyframes envelopeBreath {
+
+    0% {
+        transform:
+            translateY(0);
+    }
+
+    35% {
+        transform:
+            translateY(3px);
+    }
+
+    65% {
+        transform:
+            translateY(-2px);
+    }
+
+    100% {
+        transform:
+            translateY(0);
+    }
 }
 
 
 /* =====================================================
-   OPEN LABEL
+   TAP LABEL
 ===================================================== */
 
 .tap-label {
-
     position: absolute;
 
     bottom: 15px;
     left: 50%;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
     z-index: 20;
 
@@ -645,10 +824,14 @@ body {
     letter-spacing: .18em;
 
     opacity: .8;
+
+    transition:
+        opacity
+        .4s
+        ease;
 }
 
 .tap-label i {
-
     font-style: normal;
 
     font-size: 18px;
@@ -663,9 +846,17 @@ body {
 @keyframes bob {
 
     50% {
-        transform: translateY(5px);
+        transform:
+            translateY(5px);
     }
+}
 
+
+/* Hide instruction after click */
+
+.envelope-scene.opening
+.tap-label {
+    opacity: 0;
 }
 
 
@@ -674,7 +865,6 @@ body {
 ===================================================== */
 
 .photo-section {
-
     position: relative;
 
     min-height: 100svh;
@@ -692,7 +882,6 @@ body {
 .venue-image,
 .countdown-image,
 .final-image {
-
     position: absolute;
 
     inset: -6%;
@@ -712,17 +901,20 @@ body {
 @keyframes slowZoom {
 
     from {
-        transform: scale(1.04);
+        transform:
+            scale(1.04);
     }
 
     to {
-        transform: scale(1.11);
+        transform:
+            scale(1.11);
     }
-
 }
 
-.dark-overlay {
 
+/* Dark overlay */
+
+.dark-overlay {
     position: absolute;
 
     inset: 0;
@@ -741,7 +933,6 @@ body {
 ===================================================== */
 
 .hero-content {
-
     position: relative;
 
     z-index: 2;
@@ -752,7 +943,6 @@ body {
 }
 
 .eyebrow {
-
     font-size: 9px;
 
     letter-spacing: .3em;
@@ -761,19 +951,16 @@ body {
 }
 
 .eyebrow.light {
-
     color:
         rgba(255,255,255,.82);
 }
 
 .eyebrow.dark {
-
     color:
         #77745f;
 }
 
 .hero-names {
-
     display: flex;
 
     flex-direction: column;
@@ -793,7 +980,6 @@ body {
 }
 
 .hero-names b {
-
     font-family: var(--serif);
 
     font-size: 24px;
@@ -804,7 +990,6 @@ body {
 }
 
 .hero-content p {
-
     margin-top: 34px;
 
     font-size: 10px;
@@ -813,7 +998,6 @@ body {
 }
 
 .bottom-scroll {
-
     position: absolute;
 
     z-index: 3;
@@ -834,7 +1018,6 @@ body {
 ===================================================== */
 
 .green-section {
-
     position: relative;
 
     padding: 80px 20px;
@@ -842,7 +1025,6 @@ body {
     overflow: hidden;
 
     background:
-
         radial-gradient(
             circle at 0 0,
             rgba(255,255,255,.1),
@@ -869,7 +1051,6 @@ body {
 ===================================================== */
 
 .card {
-
     position: relative;
 
     z-index: 2;
@@ -897,7 +1078,6 @@ body {
 }
 
 .card::before {
-
     content: "";
 
     position: absolute;
@@ -914,7 +1094,6 @@ body {
 }
 
 .card h2 {
-
     font-family: var(--serif);
 
     font-size: 36px;
@@ -927,7 +1106,6 @@ body {
 }
 
 .card p {
-
     font-size: 11px;
 
     line-height: 2;
@@ -943,16 +1121,20 @@ body {
 ===================================================== */
 
 .script-title {
+    font-family:
+        var(--script) !important;
 
-    font-family: var(--script) !important;
+    font-size:
+        43px !important;
 
-    font-size: 43px !important;
+    font-weight:
+        400 !important;
 
-    font-weight: 400 !important;
+    line-height:
+        1 !important;
 
-    line-height: 1 !important;
-
-    color: var(--olive-dark) !important;
+    color:
+        var(--olive-dark) !important;
 }
 
 
@@ -961,7 +1143,6 @@ body {
 ===================================================== */
 
 .card-flower {
-
     position: absolute;
 
     color:
@@ -971,25 +1152,21 @@ body {
 }
 
 .flower-top {
-
     right: 14px;
     top: -22px;
 }
 
 .flower-bottom {
-
     left: 14px;
     bottom: -22px;
 }
 
 .floating-pearl {
-
     right: -6px;
     top: 25%;
 }
 
 .gold-line {
-
     width: 70px;
 
     height: 1px;
@@ -1002,7 +1179,6 @@ body {
 }
 
 .couple-script {
-
     display: flex;
 
     justify-content: center;
@@ -1017,15 +1193,15 @@ body {
 }
 
 .couple-script span {
-
-    font-family: var(--script);
+    font-family:
+        var(--script);
 
     font-size: 32px;
 }
 
 .couple-script small {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 15px;
 }
@@ -1036,7 +1212,6 @@ body {
 ===================================================== */
 
 .big-date {
-
     display: flex;
 
     justify-content: center;
@@ -1049,8 +1224,8 @@ body {
 }
 
 .big-date strong {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 105px;
 
@@ -1062,7 +1237,6 @@ body {
 }
 
 .big-date div {
-
     text-align: left;
 
     font-size: 10px;
@@ -1073,8 +1247,17 @@ body {
 }
 
 .big-date small {
-
     font-size: 12px;
+}
+
+.date-caption {
+    margin-top: 27px !important;
+
+    text-transform: uppercase;
+
+    font-size: 9px !important;
+
+    letter-spacing: .2em !important;
 }
 
 
@@ -1083,15 +1266,14 @@ body {
 ===================================================== */
 
 .calendar {
-
     max-width: 330px;
 
     margin: auto;
 }
 
 .calendar-month {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 21px;
 
@@ -1100,7 +1282,6 @@ body {
 
 .week,
 .days {
-
     display: grid;
 
     grid-template-columns:
@@ -1110,7 +1291,6 @@ body {
 }
 
 .week {
-
     font-size: 8px;
 
     color: #8c866f;
@@ -1119,7 +1299,6 @@ body {
 }
 
 .days span {
-
     aspect-ratio: 1;
 
     display: grid;
@@ -1134,7 +1313,6 @@ body {
 }
 
 .days .selected {
-
     background:
         var(--olive);
 
@@ -1145,24 +1323,12 @@ body {
         rgba(75,81,48,.25);
 }
 
-.date-caption {
-
-    margin-top: 27px !important;
-
-    text-transform: uppercase;
-
-    font-size: 9px !important;
-
-    letter-spacing: .2em !important;
-}
-
 
 /* =====================================================
    VENUE
 ===================================================== */
 
 .venue-card {
-
     position: relative;
 
     z-index: 2;
@@ -1190,8 +1356,8 @@ body {
 }
 
 .venue-card h2 {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 62px;
 
@@ -1204,7 +1370,6 @@ body {
 }
 
 .venue-card p {
-
     font-size: 11px;
 
     line-height: 1.8;
@@ -1214,7 +1379,6 @@ body {
 }
 
 .map-button {
-
     display: inline-block;
 
     color: white;
@@ -1236,6 +1400,19 @@ body {
     text-transform: uppercase;
 
     margin-top: 15px;
+
+    transition:
+        background
+        .3s ease,
+
+        color
+        .3s ease;
+}
+
+.map-button:hover {
+    background: white;
+
+    color: var(--olive-dark);
 }
 
 
@@ -1244,7 +1421,6 @@ body {
 ===================================================== */
 
 .timeline {
-
     position: relative;
 
     margin-top: 38px;
@@ -1253,7 +1429,6 @@ body {
 }
 
 .timeline::before {
-
     content: "";
 
     position: absolute;
@@ -1270,7 +1445,6 @@ body {
 }
 
 .event {
-
     display: grid;
 
     grid-template-columns:
@@ -1284,8 +1458,8 @@ body {
 }
 
 .event time {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 25px;
 
@@ -1299,23 +1473,23 @@ body {
 }
 
 .event > div {
-
     padding-left: 20px;
 }
 
 .event > div::before {
-
     content: "";
 
     position: absolute;
 
     left: 45px;
+
     top: 9px;
 
     width: 7px;
     height: 7px;
 
-    background: var(--ivory);
+    background:
+        var(--ivory);
 
     border:
         1px solid
@@ -1327,10 +1501,10 @@ body {
 }
 
 .event strong {
-
     display: block;
 
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 19px;
 
@@ -1340,7 +1514,6 @@ body {
 }
 
 .event small {
-
     display: block;
 
     margin-top: 5px;
@@ -1358,12 +1531,10 @@ body {
 ===================================================== */
 
 .countdown {
-
     min-height: 62svh;
 }
 
 .countdown-content {
-
     position: relative;
 
     z-index: 2;
@@ -1376,12 +1547,10 @@ body {
 }
 
 .light-text {
-
     color: white !important;
 }
 
 .timer {
-
     display: flex;
 
     align-items: center;
@@ -1394,15 +1563,14 @@ body {
 }
 
 .timer div {
-
     min-width: 62px;
 }
 
 .timer strong {
-
     display: block;
 
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 36px;
 
@@ -1410,7 +1578,6 @@ body {
 }
 
 .timer small {
-
     font-size: 7px;
 
     letter-spacing: .13em;
@@ -1419,8 +1586,8 @@ body {
 }
 
 .timer i {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 25px;
 
@@ -1437,13 +1604,11 @@ body {
 ===================================================== */
 
 .gallery-section {
-
     padding-left: 15px;
     padding-right: 15px;
 }
 
 .gallery-title {
-
     text-align: center;
 
     position: relative;
@@ -1457,7 +1622,6 @@ body {
 }
 
 .gallery {
-
     display: grid;
 
     grid-template-columns:
@@ -1471,12 +1635,12 @@ body {
 }
 
 .gallery-photo {
-
     padding: 0;
 
     border: 0;
 
-    background: var(--ivory);
+    background:
+        var(--ivory);
 
     height: 245px;
 
@@ -1492,19 +1656,17 @@ body {
 }
 
 .gallery-photo.tall {
-
     height: 330px;
 }
 
 .gallery-photo.wide {
-
-    grid-column: 1 / -1;
+    grid-column:
+        1 / -1;
 
     height: 225px;
 }
 
 .gallery-photo img {
-
     width: 100%;
     height: 100%;
 
@@ -1519,7 +1681,6 @@ body {
 }
 
 .gallery-photo:hover img {
-
     transform:
         scale(1.05);
 }
@@ -1530,14 +1691,14 @@ body {
 ===================================================== */
 
 .normal-text {
+    letter-spacing:
+        0 !important;
 
-    letter-spacing: 0 !important;
-
-    line-height: 1.8 !important;
+    line-height:
+        1.8 !important;
 }
 
 .rsvp-card form {
-
     text-align: left;
 
     margin-top: 28px;
@@ -1545,7 +1706,6 @@ body {
 
 .rsvp-card label,
 .rsvp-card fieldset {
-
     display: block;
 
     margin-bottom: 21px;
@@ -1553,7 +1713,6 @@ body {
 
 .rsvp-card label,
 .rsvp-card legend {
-
     font-size: 9px;
 
     color: #77745f;
@@ -1564,7 +1723,6 @@ body {
 .rsvp-card input,
 .rsvp-card select,
 .rsvp-card textarea {
-
     width: 100%;
 
     border: 0;
@@ -1573,7 +1731,8 @@ body {
         1px solid
         rgba(91,90,67,.35);
 
-    background: transparent;
+    background:
+        transparent;
 
     outline: none;
 
@@ -1586,20 +1745,23 @@ body {
     border-radius: 0;
 }
 
-.rsvp-card fieldset {
+.rsvp-card textarea {
+    min-height: 80px;
 
+    resize: vertical;
+}
+
+.rsvp-card fieldset {
     padding: 0;
 
     border: 0;
 }
 
 .rsvp-card legend {
-
     margin-bottom: 10px;
 }
 
 .radio {
-
     display: flex !important;
 
     gap: 9px;
@@ -1610,23 +1772,25 @@ body {
 
     letter-spacing: 0 !important;
 
-    color: var(--text) !important;
+    color:
+        var(--text) !important;
 
-    margin-bottom: 10px !important;
+    margin-bottom:
+        10px !important;
 }
 
 .radio input {
+    width:
+        auto !important;
 
-    width: auto !important;
-
-    margin: 0 !important;
+    margin:
+        0 !important;
 
     accent-color:
         var(--olive);
 }
 
 .submit {
-
     width: 100%;
 
     padding: 15px;
@@ -1635,7 +1799,8 @@ body {
 
     border-radius: 999px;
 
-    background: var(--olive);
+    background:
+        var(--olive);
 
     color: white;
 
@@ -1646,22 +1811,40 @@ body {
     font-size: 9px;
 
     cursor: pointer;
+
+    transition:
+        transform
+        .25s ease,
+
+        box-shadow
+        .25s ease;
+}
+
+.submit:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(48,53,31,.25);
+}
+
+.submit:active {
+    transform:
+        translateY(0);
 }
 
 .success {
-
     display: none;
 
     padding-top: 30px;
 }
 
 .success.show {
-
     display: block;
 }
 
 .success > span {
-
     display: grid;
 
     place-items: center;
@@ -1673,14 +1856,15 @@ body {
 
     border-radius: 50%;
 
-    background: var(--olive);
+    background:
+        var(--olive);
 
     color: white;
 }
 
 .success h3 {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 30px;
 
@@ -1688,7 +1872,6 @@ body {
 }
 
 .success p {
-
     font-size: 11px;
 
     line-height: 1.8;
@@ -1700,7 +1883,6 @@ body {
 ===================================================== */
 
 .final-content {
-
     position: relative;
 
     z-index: 2;
@@ -1711,8 +1893,8 @@ body {
 }
 
 .final-content h2 {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 63px;
 
@@ -1725,8 +1907,8 @@ body {
 }
 
 .final-names {
-
-    font-family: var(--script);
+    font-family:
+        var(--script);
 
     font-size: 51px;
 
@@ -1734,14 +1916,13 @@ body {
 }
 
 .final-names span {
-
-    font-family: var(--serif);
+    font-family:
+        var(--serif);
 
     font-size: 22px;
 }
 
 .final-content > p {
-
     font-size: 10px;
 
     letter-spacing: .25em;
@@ -1750,13 +1931,11 @@ body {
 }
 
 .light-line {
-
     background:
         rgba(255,255,255,.6);
 }
 
 .final-content small {
-
     font-size: 9px;
 
     letter-spacing: .13em;
@@ -1770,7 +1949,6 @@ body {
 ===================================================== */
 
 .music-button {
-
     display: none;
 
     position: fixed;
@@ -1812,14 +1990,12 @@ body {
 }
 
 .music-button.show {
-
     display: grid;
 
     place-items: center;
 }
 
 .music-button.playing {
-
     animation:
         musicPulse
         2.4s
@@ -1843,7 +2019,6 @@ body {
 ===================================================== */
 
 .reveal {
-
     opacity: 0;
 
     transform:
@@ -1853,23 +2028,26 @@ body {
         blur(5px);
 
     transition:
-        opacity 1s
+        opacity
+        1s
         cubic-bezier(.2,.7,.2,1),
 
-        transform 1s
+        transform
+        1s
         cubic-bezier(.2,.7,.2,1),
 
-        filter 1s
+        filter
+        1s
         cubic-bezier(.2,.7,.2,1);
 }
 
 .reveal.visible {
-
     opacity: 1;
 
     transform: none;
 
-    filter: blur(0);
+    filter:
+        blur(0);
 }
 
 
@@ -1878,7 +2056,6 @@ body {
 ===================================================== */
 
 .lightbox {
-
     position: fixed;
 
     inset: 0;
@@ -1896,12 +2073,10 @@ body {
 }
 
 .lightbox.show {
-
     display: grid;
 }
 
 .lightbox img {
-
     max-width: 100%;
 
     max-height: 90svh;
@@ -1912,7 +2087,6 @@ body {
 }
 
 .lightbox button {
-
     position: absolute;
 
     right: 16px;
@@ -1943,7 +2117,6 @@ body {
 ===================================================== */
 
 .envelope-screen.exit {
-
     animation:
         envelopeExit
         1s
@@ -1957,23 +2130,31 @@ body {
 
         opacity: 1;
 
-        transform: scale(1);
+        transform:
+            scale(1);
 
-        filter: blur(0);
+        filter:
+            blur(0);
     }
 
     100% {
 
         opacity: 0;
 
-        transform: scale(1.045);
+        transform:
+            scale(1.045);
 
-        filter: blur(8px);
+        filter:
+            blur(8px);
     }
 }
 
-.invitation.show {
 
+/* =====================================================
+   INVITATION ENTRY
+===================================================== */
+
+.invitation.show {
     animation:
         invitationIn
         1.25s
@@ -1995,7 +2176,8 @@ body {
 
         opacity: 1;
 
-        transform: none;
+        transform:
+            none;
     }
 }
 
@@ -2007,8 +2189,8 @@ body {
 @media (min-width: 700px) {
 
     body {
-
-        padding: 30px 0;
+        padding:
+            30px 0;
 
         background:
             radial-gradient(
@@ -2017,12 +2199,35 @@ body {
                 #252b18 70%
             );
 
-        background-attachment: fixed;
+        background-attachment:
+            fixed;
     }
 
     .site {
+        border-radius:
+            22px;
+    }
+}
 
-        border-radius: 22px;
+
+/* =====================================================
+   TABLET / LARGE PHONE
+===================================================== */
+
+@media (min-width: 480px) {
+
+    .envelope-scene {
+        height: 560px;
+    }
+
+    .envelope {
+        width: 330px;
+        height: 228px;
+    }
+
+    .letter {
+        width: 260px;
+        height: 325px;
     }
 }
 
@@ -2033,41 +2238,156 @@ body {
 
 @media (max-width: 360px) {
 
+    .envelope-scene {
+        width: 94vw;
+
+        height: 500px;
+    }
+
     .envelope {
+
+        width: 285px;
+        height: 198px;
 
         transform:
             translate(-50%,-37%)
             scale(.9);
     }
 
-    .letter {
+    .envelope-scene.opening
+    .envelope {
 
         transform:
-            translate(-50%,12%)
-            scale(.92);
+            translate(-50%,-39%)
+            scale(.925);
+    }
+
+    .letter {
+
+        width: 225px;
+        height: 295px;
+
+        transform:
+            translate(-50%, 25px)
+            scale(.9);
     }
 
     .envelope-scene.opening
     .letter {
 
-        transform:
-            translate(-50%,-105px)
-            scale(.92);
+        animation:
+            letterRiseSmall
+            1.45s
+            .48s
+            cubic-bezier(.16,.75,.18,1)
+            both;
+    }
+
+    @keyframes letterRiseSmall {
+
+        0% {
+
+            opacity: 0;
+
+            transform:
+                translate(-50%, 35px)
+                scale(.86)
+                rotate(-1deg);
+        }
+
+        15% {
+
+            opacity: 1;
+
+            transform:
+                translate(-50%, 15px)
+                scale(.88)
+                rotate(-.7deg);
+        }
+
+        40% {
+
+            transform:
+                translate(-50%, -42px)
+                scale(.9)
+                rotate(.4deg);
+        }
+
+        68% {
+
+            transform:
+                translate(-50%, -105px)
+                scale(.92)
+                rotate(-.25deg);
+        }
+
+        85% {
+
+            transform:
+                translate(-50%, -120px)
+                scale(.925)
+                rotate(.1deg);
+        }
+
+        100% {
+
+            opacity: 1;
+
+            transform:
+                translate(-50%, -110px)
+                scale(.92)
+                rotate(0deg);
+        }
+    }
+
+    .wax-seal {
+
+        width: 58px;
+        height: 58px;
+
+        font-size: 15px;
+    }
+
+    .letter-names {
+        font-size: 43px;
     }
 
     .card {
-
         padding-left: 22px;
         padding-right: 22px;
     }
 
     .timer div {
-
         min-width: 55px;
     }
 
     .timer strong {
-
         font-size: 31px;
+    }
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
     }
 }
