@@ -68,7 +68,7 @@ body {
             rgba(48,53,31,.32),
             rgba(37,42,22,.67)
         ),
-        url("assets/intro.jpg")
+        url("intro.jpg")
         center / cover;
 
     filter: saturate(.78);
