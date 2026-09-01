@@ -3,7 +3,7 @@
 ===================================================== */
 
 const WEDDING_DATE =
-    new Date("2026-12-19T18:00:00+05:00");
+    new Date("2026-10-28T18:00:00+05:00");
 
 
 /* =====================================================
@@ -241,7 +241,7 @@ function createCalendar() {
      * 11 = декабрь,
      * потому что январь = 0
      */
-    const month = 11;
+    const month = 9;
 
 
     const firstDay =
@@ -303,7 +303,7 @@ function createCalendar() {
         /*
          * День свадьбы
          */
-        if (day === 19) {
+        if (day === 28) {
 
             element.classList.add(
                 "selected"
