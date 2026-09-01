@@ -1476,29 +1476,7 @@ img {
     padding-left: 20px;
 }
 
-.event > div::before {
-    content: "";
 
-    position: absolute;
-
-    left: 45px;
-
-    top: 9px;
-
-    width: 7px;
-    height: 7px;
-
-    background:
-        var(--ivory);
-
-    border:
-        1px solid
-        var(--gold);
-
-    border-radius: 50%;
-
-    z-index: 3;
-}
 
 .event strong {
     display: block;
